@@ -7,6 +7,8 @@ const locationsService = require('./locations.service')
 router.get('/locations', (req, res) => {
 	return res.status(200).send({locations: []})
 })
-
+router.get('/hello', (req, res) => {
+	return res.status(200).send('Hello world')
+})
 
 module.exports = router
