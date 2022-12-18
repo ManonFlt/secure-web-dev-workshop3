@@ -2,35 +2,36 @@
 
 const Location = require('./locations.model')
 
-function findAll() {
-	return [1,2,3,4]
-}
-
-async function create(){
-
-}
-
-async function update(id, modification){
-
-}
-
 function getAll(){
-	//return Location[1,2,3,4]
 	return Location.find({})
 }
 
-async function getOne(){
-
+async function getOne(id){
+	const location = await Location.findById(id)
+	if(!location){
+		throw new Error('Location not found')
+	}
+	return location
 }
 
-function findOne(id){
-	//return Location.findOne({sourceLocationId: id})
-	return Location.findOne({sourceLocationId: id})
+async function create(newLoc){
+	const toCreate = new Location(newLoc)
+	return toCreate.save()
 }
 
-module.exports.findAll = findAll
-module.exports.findOne = findOne
-module.exports.create = create
-module.exports.update = update
+async function update(id, modification){
+	const location = await getOne(id)
+	return location.update(modification)
+}
+
+async function deleteOne(id){
+	const locationToDelete = await getOne(id)
+	return locationToDelete.remove()
+}
+
+
 module.exports.getAll = getAll
 module.exports.getOne = getOne
+module.exports.create = create
+module.exports.update = update
+module.exports.deleteOne = deleteOne
